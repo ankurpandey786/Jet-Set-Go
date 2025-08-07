@@ -1,67 +1,102 @@
-# Travel Itinerary Backend App
+# ✈️ Jet-Set-Go – Travel Itinerary Backend App
 
-A Spring Boot application for managing travel itineraries with user authentication and itinerary history tracking.
+**Jet-Set-Go** is a Spring Boot-powered backend application that enables seamless travel itinerary management with secure user authentication, itinerary history tracking, and full support for AI-generated travel plans.
 
-## Features
+---
 
-- User authentication with JWT
-- Travel itinerary management
-- User itinerary history
-- Search functionality
-- RESTful API endpoints
+## 🌟 Key Features
 
-## Database Schema
+- 🔐 **JWT-based User Authentication**
+- 📅 **Create, View, and Delete Travel Itineraries**
+- 🧠 **Store Full AI-Generated Itineraries**
+- 📜 **User Itinerary History**
+- 🔎 **Search Itineraries by Keyword**
+- 🌐 **RESTful API Design**
 
-### User Table
-- id (Primary Key)
-- username, email, password
-- firstName, lastName, phoneNumber
-- createdAt, updatedAt
-- enabled, role
+---
 
-### Itinerary Table
-- id (Primary Key)
-- user_id (Foreign Key to User)
-- destination, title, description
-- fullItinerary (TEXT - stores complete AI-generated itinerary)
-- startDate, endDate, numberOfDays
-- budgetRange, travelStyle
-- createdAt, updatedAt
+## 🧰 Tech Stack
 
-## API Endpoints
+| Layer       | Technology             |
+|-------------|------------------------|
+| Backend     | Spring Boot (Java)     |
+| Security    | Spring Security + JWT  |
+| Database    | MySQL                  |
+| Build Tool  | Maven                  |
+| API Format  | JSON (Wrapped in `ApiResponse<T>`) |
 
-### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User login
+---
 
-### Itineraries
-- `POST /api/itineraries?userId={userId}` - Save new itinerary
-- `GET /api/itineraries?userId={userId}` - Get all user itineraries
-- `GET /api/itineraries/{itineraryId}?userId={userId}` - Get specific itinerary
-- `GET /api/itineraries/search?userId={userId}&searchTerm={term}` - Search itineraries
-- `DELETE /api/itineraries/{itineraryId}?userId={userId}` - Delete itinerary
+## 🗂️ Database Schema
 
-## Setup Instructions
+### 🧑 User Table
 
-1. **Database Setup**
-   - Install MySQL
-   - Update `application.properties` with your database credentials
-   - The database will be created automatically on first run
+| Field          | Type        |
+|----------------|-------------|
+| id             | Primary Key |
+| username       | String      |
+| email          | String      |
+| password       | String      |
+| firstName      | String      |
+| lastName       | String      |
+| phoneNumber    | String      |
+| role           | String      |
+| enabled        | Boolean     |
+| createdAt      | Timestamp   |
+| updatedAt      | Timestamp   |
 
-2. **Run the Application**
-   ```bash
-   mvn spring-boot:run
-   ```
+### 📍 Itinerary Table
 
-3. **API Usage**
-   - The frontend should send the complete AI-generated itinerary in the `fullItinerary` field
-   - User authentication is required for all itinerary operations
-   - All responses are wrapped in `ApiResponse<T>` format
+| Field           | Type        |
+|------------------|-------------|
+| id               | Primary Key |
+| user_id          | Foreign Key |
+| destination      | String      |
+| title            | String      |
+| description      | String      |
+| fullItinerary    | TEXT        |
+| startDate        | Date        |
+| endDate          | Date        |
+| numberOfDays     | Integer     |
+| budgetRange      | String      |
+| travelStyle      | String      |
+| createdAt        | Timestamp   |
+| updatedAt        | Timestamp   |
 
-## Example Request
+---
 
-```json
-POST /api/itineraries?userId=1
+## 📡 API Endpoints
+
+### 🔐 Authentication
+
+| Method | Endpoint             | Description         |
+|--------|----------------------|---------------------|
+| POST   | `/api/auth/signup`   | Register a user     |
+| POST   | `/api/auth/login`    | Login and get token |
+
+### 🧳 Itineraries
+
+| Method | Endpoint                                                                 | Description                 |
+|--------|--------------------------------------------------------------------------|-----------------------------|
+| POST   | `/api/itineraries?userId={userId}`                                       | Save a new itinerary        |
+| GET    | `/api/itineraries?userId={userId}`                                       | Get all itineraries for user|
+| GET    | `/api/itineraries/{itineraryId}?userId={userId}`                        | Get specific itinerary      |
+| GET    | `/api/itineraries/search?userId={userId}&searchTerm={term}`             | Search itineraries          |
+| DELETE | `/api/itineraries/{itineraryId}?userId={userId}`                        | Delete an itinerary         |
+
+---
+
+## ⚙️ Setup Instructions
+
+### 🔧 Database Setup
+
+1. Install MySQL and create a database.
+2. Update `application.properties` with your DB credentials:
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/jetsetgo
+   spring.datasource.username=yourUsername
+   spring.datasource.password=yourPassword
+
 {
   "destination": "Paris, France",
   "title": "Weekend in Paris",
@@ -73,11 +108,8 @@ POST /api/itineraries?userId=1
   "budgetRange": "1000-2000",
   "travelStyle": "Luxury"
 }
-```
 
-## Example Response
 
-```json
 {
   "success": true,
   "data": {
@@ -96,4 +128,3 @@ POST /api/itineraries?userId=1
   },
   "message": null
 }
-```
